@@ -1,6 +1,7 @@
 <script>
     import getBooksByParam from "../lib/getBooksByParam.js";
     import AddBookPopUp from "./AddBookPopUp.svelte";
+    import BookCard from "./BookCard.svelte";
 
     let found = true;
     let field = 'q';
@@ -68,7 +69,9 @@
     <div class="results-container">
         <div class="gallery">
             {#each books as book}
-                <button on:click={addBook(book)}>{book.title}</button>
+                <button class="inv" on:click={addBook(book)}>
+                    <BookCard book={book}/>
+                </button>
             {/each}
         </div>
     </div>
@@ -139,6 +142,10 @@
     .search-submit:hover {
         background-color: hsla(160, 100%, 40%, 1);
         cursor: pointer;
+    }
+    .inv {
+        background-color: transparent;
+        border: none;
     }
 
 </style>

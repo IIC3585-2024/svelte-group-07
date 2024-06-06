@@ -2,6 +2,7 @@
     import { categories } from "../data/categories";
     import getBookDescription from "../lib/getBookDescription.js";
     import { onMount } from "svelte";
+    import { db } from "../db.js";
 
     export let closeFunction;
     export let bookProp;
@@ -28,27 +29,32 @@
     $: authorString = book.author_name;
     $: getBookDescription(book.key).then(desc => description = desc);
 
-    function moveToCategory(book, categoryId) {
-        //TODO: move book to category
+    async function moveToCategory(book, categoryId) {
+        const bookObject = {...book, category: categoryId};
+        await db.books.put(bookObject);
     }
 
     function deleteBook(book) {
-        //TODO: delete book
+        return async () => {
+            await db.books.delete(book.id);
+            window.location.href = "/";
+        }
     }
 
-    function addToCategory(book, categoryId) {
-        //TODO: add book to category
+    async function addToCategory(book, categoryId) {
+        const bookObject = {...book, category: categoryId};
+        const id = await db.books.add(bookObject);
     }
 
     function redirectWrapper(func) {
         return (book, category) => {
             try {
-                func(book, category);
-
-                if (closeFunction) {
-                    closeFunction();
-                }
-                // TODO: Redirect to home page
+                func(book, category).then(() => {
+                    if (closeFunction) {
+                        closeFunction();
+                    }
+                    window.location.href = "/";
+                });
             } catch (error) {
                 console.error(error);
             }
@@ -62,7 +68,9 @@
             book = bookProp;
         } else {
             bookId = window.location.pathname.split("/").pop();
-            // TODO: fetch book from db
+            db.books.get(parseInt(bookId)).then((bookFromDb) => {
+                book = bookFromDb;
+            });
         }
         mounted = true;
     });
@@ -93,17 +101,17 @@
         {#if isInBook}
             <div class="button-row">
                 {#each filteredCategories as category, i}
-                    <button class="button {colorClasses[i%colorClasses.length]}" on:click={moveToCategory(book,category.id)}>{category.name}</button>
+                    <button class="button {colorClasses[i%colorClasses.length]}" on:click={redirectWrapper(moveToCategory)(book,category.id)}>{category.name}</button>
                 {/each}
                 <button class="button button-red" on:click={deleteBook(book)}>Delete</button>
             </div>
         {:else}
             <div class="button-row">
                 {#each filteredCategories as category, i}
-                    <button class="button {colorClasses[i%colorClasses.length]}" on:click={addToCategory(book,category.id)}>{category.name}</button>
+                    <button class="button {colorClasses[i%colorClasses.length]}" on:click={redirectWrapper(addToCategory)(book,category.id)}>{category.name}</button>
                 {/each}
             </div>
-        {/if}            
+        {/if}
     {/if}
 
 </div>

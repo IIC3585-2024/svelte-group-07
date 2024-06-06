@@ -1,18 +1,14 @@
 <script>
-import { goto } from '$app.navigation';
+import { db } from "../db.js";
 
-//export let id;
-export let title;
-export let authors;
-export let coverI;
+export let book;
 
-$: authorsString = authors.join(', ').trimEnd();
-$: coverURL = `http://covers.openlibrary.org/b/id/${coverI}-M.jpg`;
+$: authorsString = book.author_name.join(', ').trimEnd();
+$: coverURL = `http://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
 
 function deleteBook () {
-    // To do
-    // use id to delete
-    goto('/');
+    db.books.delete(book.id);
+    window.location.href = "/";
 }
 
 function handleDeleteClick(event) {
@@ -23,7 +19,7 @@ function handleDeleteClick(event) {
     
 <div class="card">
     <img src={coverURL} alt="book" class="cover"/>
-    <h2>{ title }</h2>
+    <h2>{ book.title }</h2>
     <p>{ authorsString }</p>
     <div>
         <button on:click={handleDeleteClick} class="button button-red"> Delete </button>

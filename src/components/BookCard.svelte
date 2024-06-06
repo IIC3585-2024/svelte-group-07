@@ -1,17 +1,14 @@
 <script>
 
-export let title;
-export let authors;
-export let coverI;
-
-$: authorsString = authors.join(', ').trimEnd();
-$: coverURL = `http://covers.openlibrary.org/b/id/${coverI}-M.jpg`;
+export let book;
+$: authorsString = book.author_name.join(', ').trimEnd();
+$: coverURL = `http://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`;
 
 </script>
 
 <div class="card">
     <img src={coverURL} alt="book" class="cover"/>
-    <h2>{ title }</h2>
+    <h2>{ book.title }</h2>
     <p>{ authorsString }</p>
 </div>
 
