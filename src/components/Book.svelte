@@ -29,17 +29,14 @@
     $: authorString = book.author_name;
     $: getBookDescription(book.key).then(desc => description = desc);
 
-    function moveToCategory(book, categoryId) {
-        return async () => {
-            await db.books.update(book.id, {category: categoryId});
-            console.log(`Moved book with id ${book.id} to ${categoryId} category`);
-        }
+    async function moveToCategory(book, categoryId) {
+        const bookObject = {...book, category: categoryId};
+        await db.books.put(bookObject);
     }
 
     function deleteBook(book) {
         return async () => {
             await db.books.delete(book.id);
-            console.log(`Deleted book with id ${book.id}`);
             window.location.href = "/";
         }
     }
@@ -47,19 +44,17 @@
     async function addToCategory(book, categoryId) {
         const bookObject = {...book, category: categoryId};
         const id = await db.books.add(bookObject);
-        console.log(`Added book with id ${id}`);
     }
 
     function redirectWrapper(func) {
         return (book, category) => {
             try {
-                func(book, category);
-
-                if (closeFunction) {
-                    closeFunction();
-                }
-                // Redirect to home page
-                window.location.href = "/";
+                func(book, category).then(() => {
+                    if (closeFunction) {
+                        closeFunction();
+                    }
+                    window.location.href = "/";
+                });
             } catch (error) {
                 console.error(error);
             }
@@ -69,13 +64,11 @@
     onMount(async () => {
         
         isInBook = window.location.pathname.includes("/book");
-        console.log(isInBook);
         if (!isInBook) {
             book = bookProp;
         } else {
             bookId = window.location.pathname.split("/").pop();
             db.books.get(parseInt(bookId)).then((bookFromDb) => {
-                console.log(bookFromDb);
                 book = bookFromDb;
             });
         }
@@ -118,7 +111,7 @@
                     <button class="button {colorClasses[i%colorClasses.length]}" on:click={redirectWrapper(addToCategory)(book,category.id)}>{category.name}</button>
                 {/each}
             </div>
-        {/if}            
+        {/if}
     {/if}
 
 </div>
