@@ -2,6 +2,7 @@
     import { categories } from "../data/categories";
     import getBookDescription from "../lib/getBookDescription.js";
     import { onMount } from "svelte";
+    import { db } from "../db.js";
 
     export let closeFunction;
     export let bookProp;
@@ -29,15 +30,24 @@
     $: getBookDescription(book.key).then(desc => description = desc);
 
     function moveToCategory(book, categoryId) {
-        //TODO: move book to category
+        return async () => {
+            await db.books.update(book.id, {category: categoryId});
+            console.log(`Moved book with id ${book.id} to ${categoryId} category`);
+        }
     }
 
     function deleteBook(book) {
-        //TODO: delete book
+        return async () => {
+            await db.books.delete(book.id);
+            console.log(`Deleted book with id ${book.id}`);
+            window.location.href = "/";
+        }
     }
 
-    function addToCategory(book, categoryId) {
-        //TODO: add book to category
+    async function addToCategory(book, categoryId) {
+        const bookObject = {...book, category: categoryId};
+        const id = await db.books.add(bookObject);
+        console.log(`Added book with id ${id}`);
     }
 
     function redirectWrapper(func) {
@@ -48,7 +58,8 @@
                 if (closeFunction) {
                     closeFunction();
                 }
-                // TODO: Redirect to home page
+                // Redirect to home page
+                window.location.href = "/";
             } catch (error) {
                 console.error(error);
             }
@@ -58,11 +69,15 @@
     onMount(async () => {
         
         isInBook = window.location.pathname.includes("/book");
+        console.log(isInBook);
         if (!isInBook) {
             book = bookProp;
         } else {
             bookId = window.location.pathname.split("/").pop();
-            // TODO: fetch book from db
+            db.books.get(parseInt(bookId)).then((bookFromDb) => {
+                console.log(bookFromDb);
+                book = bookFromDb;
+            });
         }
         mounted = true;
     });
@@ -93,14 +108,14 @@
         {#if isInBook}
             <div class="button-row">
                 {#each filteredCategories as category, i}
-                    <button class="button {colorClasses[i%colorClasses.length]}" on:click={moveToCategory(book,category.id)}>{category.name}</button>
+                    <button class="button {colorClasses[i%colorClasses.length]}" on:click={redirectWrapper(moveToCategory)(book,category.id)}>{category.name}</button>
                 {/each}
                 <button class="button button-red" on:click={deleteBook(book)}>Delete</button>
             </div>
         {:else}
             <div class="button-row">
                 {#each filteredCategories as category, i}
-                    <button class="button {colorClasses[i%colorClasses.length]}" on:click={addToCategory(book,category.id)}>{category.name}</button>
+                    <button class="button {colorClasses[i%colorClasses.length]}" on:click={redirectWrapper(addToCategory)(book,category.id)}>{category.name}</button>
                 {/each}
             </div>
         {/if}            
