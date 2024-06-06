@@ -55,7 +55,7 @@
 
 </script>
 
-<div>
+<div class="search-view">
     <h2 id="search-title">Search for a book</h2>
     <div class="search">
         <input class="text-search" type="text" placeholder="The Lord of the Rings" bind:value={text}/>
@@ -86,6 +86,10 @@
 {/if}
 
 <style>
+    .search-view {
+        margin: 0 5rem;
+    }
+
     #search-title {
         margin-top: 0.5rem;
     }
