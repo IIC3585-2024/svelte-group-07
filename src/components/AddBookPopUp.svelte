@@ -17,7 +17,9 @@
             </button>
         </div>
         <h2>Do you want to add the following book to category?</h2>
-        <Book bind:bookProp={book} bind:closeFunction/>
+        <div class="popup-book">
+            <Book bind:bookProp={book} bind:closeFunction/>
+        </div>
     </div>
 </div>
 
@@ -28,9 +30,7 @@
     justify-content: flex-end;
     position: sticky;
     top: 0;
-    padding: 20px 0;
-    background-color: #181818;
-    
+    padding: 20px;
     width: 100%;
 }
 
@@ -73,7 +73,8 @@
 
 .popup-book {
     width: 80%;
-    height: 16rem;
+    height: 80vh;
+    padding: 15px;
     object-fit: cover;
 }
 </style>

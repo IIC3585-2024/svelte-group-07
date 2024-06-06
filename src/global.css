@@ -93,10 +93,11 @@ main {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-width: 70vw;
-  height: 90vh;
-  width: 100%;
-  margin-top: 100px;
+  margin: 0 2.5vw;
+  padding: 2rem;
+  min-width: 95vw;
+  min-height: 100vh;
+  margin-top: 90px;
 }
 
 #app {
