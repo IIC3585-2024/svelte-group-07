@@ -39,18 +39,18 @@
     }
 
     function addBook(book) {
-    selectedBook = {
-        key: book.key,
-        title: book.title,
-        author_name: book.author_name,
-        first_publish_year: book.first_publish_year,
-        cover_i: book.cover_i,
-        ratings_average: book.ratings_average,
-        ratings_count: book.ratings_count,
-        number_of_pages_median: book.number_of_pages_median,
+        selectedBook = {
+            key: book.key,
+            title: book.title,
+            author_name: book.author_name,
+            first_publish_year: book.first_publish_year,
+            cover_i: book.cover_i,
+            ratings_average: book.ratings_average,
+            ratings_count: book.ratings_count,
+            number_of_pages_median: book.number_of_pages_median,
+        }
+        showAddBookPopUp = true;
     }
-    showAddBookPopUp = true;
-}
 
 </script>
 
@@ -68,7 +68,7 @@
     <div class="results-container">
         <div class="gallery">
             {#each books as book}
-                <button on:click={addBook}>{book.title}</button>
+                <button on:click={addBook(book)}>{book.title}</button>
             {/each}
         </div>
     </div>

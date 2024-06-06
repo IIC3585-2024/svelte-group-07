@@ -5,6 +5,8 @@
     export let book;
     export let closeFunction;
 
+    console.log(book)
+
 </script>
 
 <div class="popup">

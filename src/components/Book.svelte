@@ -55,8 +55,7 @@
 
     onMount(async () => {
         
-        isInBook = window.location.pathname.includes("book");
-        
+        isInBook = window.location.pathname.includes("/book");
         if (!isInBook) {
             book = bookProp;
         } else {
