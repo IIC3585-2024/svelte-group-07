@@ -15,6 +15,7 @@
             acc[book.category].push(book);
             return acc;
         }, {});
+        books.all = booksArray;
     }
 
 </script>
