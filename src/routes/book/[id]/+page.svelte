@@ -3,5 +3,5 @@
 </script>
 
 <main>
-    <Book />
+    <Book closeFunction={() => {}} bookProp={null} />
 </main>
