@@ -1,6 +1,6 @@
 <script>
     // get the category id from the URL
-    import { categories } from "./categories.js";
+    import { categories } from "../lib/categories.js";
     import { onMount } from "svelte";
 
     let category = {};

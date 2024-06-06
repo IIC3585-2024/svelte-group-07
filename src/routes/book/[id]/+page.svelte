@@ -1,5 +1,5 @@
 <script>
-    import Book from "../../lib/Book.svelte";
+    import Book from "../../components/Book.svelte";
 </script>
 
 <Book />

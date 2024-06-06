@@ -1,5 +1,5 @@
 <script>
-    import { categories } from "./categories.js";
+    import { categories } from "../lib/categories.js";
 </script>
 
 <main>

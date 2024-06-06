@@ -1,5 +1,5 @@
 <script>
-    import CategoryBoard from "../lib/CategoryBoard.svelte";
+    import CategoryBoard from "../components/CategoryBoard.svelte";
 </script>
 
 <CategoryBoard />
