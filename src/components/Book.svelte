@@ -68,7 +68,7 @@
     });
 </script>
 
-<main>
+<div>
     {#if mounted}
         <div class="container">
             <img src={cover} alt={book.title} />
@@ -106,7 +106,7 @@
         {/if}            
     {/if}
 
-</main>
+</div>
 
 
 <style>
