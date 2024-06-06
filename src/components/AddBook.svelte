@@ -1,5 +1,6 @@
 <script>
-    import getBooksByParam from '../lib/getBooksByParam.js';
+    import getBooksByParam from "../lib/getBooksByParam.js";
+    import AddBookPopUp from "./AddBookPopUp.svelte";
 
     let found = true;
     let field = 'q';
@@ -78,8 +79,7 @@
     {/if}
 </main>
 {#if showAddBookPopUp}
-    <!-- <AddBookPopUp bind:showAddBookPopUp={showAddBookPopUp} book={selectedBook}/> -->
-    <p>popup</p>
+    <AddBookPopUp closeFunction={() => showAddBookPopUp = false} book={selectedBook}/>
 {/if}
 
 <style>
