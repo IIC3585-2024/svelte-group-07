@@ -1,7 +1,7 @@
-import Dexie from 'dexie';
+import Dexie from "dexie";
 
-export const db = new Dexie('my-books');
+export const db = new Dexie("my-books");
 
 db.version(1).stores({
-    books: '++id, category',
+  books: "++id, category",
 });
