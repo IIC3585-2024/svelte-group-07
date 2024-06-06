@@ -1,6 +1,6 @@
 <script>
     export let bookProp;
-    import { categories } from "./categories";
+    import { categories } from "../data/categories";
     import { onMount } from "svelte";
 
     let book = {
