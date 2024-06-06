@@ -1,7 +1,10 @@
 <script>
-    export let bookProp;
-    import { categories } from "./categories";
+    import { categories } from "../data/categories";
+    import getBookDescription from "../lib/getBookDescription.js";
     import { onMount } from "svelte";
+
+    export let closeFunction;
+    export let bookProp;
 
     let book = {
         title: "",
@@ -22,7 +25,8 @@
     let colorClasses = ["button-green", "button-blue", "button-yellow", "button-light-blue"];
 
     $: cover = `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`;
-    $: authorString = book.author_name.join(", ").trimEnd();
+    $: authorString = book.author_name;
+    $: getBookDescription(book.key).then(desc => description = desc);
 
     function moveToCategory(book, categoryId) {
         //TODO: move book to category
@@ -36,10 +40,24 @@
         //TODO: add book to category
     }
 
+    function redirectWrapper(func) {
+        return (book, category) => {
+            try {
+                func(book, category);
+
+                if (closeFunction) {
+                    closeFunction();
+                }
+                // TODO: Redirect to home page
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+
     onMount(async () => {
         
-        isInBook = window.location.pathname.contains("book");
-        
+        isInBook = window.location.pathname.includes("/book");
         if (!isInBook) {
             book = bookProp;
         } else {

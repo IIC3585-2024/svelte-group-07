@@ -89,6 +89,16 @@ html {
   scrollbar-color: #4a4a4a #2f2f2f;
 }
 
+main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 70vw;
+  height: 90vh;
+  width: 100%;
+  margin-top: 100px;
+}
+
 #app {
   font-weight: normal;
   scrollbar-color: #4a4a4a #2f2f2f;

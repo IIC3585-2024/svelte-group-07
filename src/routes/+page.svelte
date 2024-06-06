@@ -2,4 +2,6 @@
     import CategoryBoard from "../components/CategoryBoard.svelte";
 </script>
 
-<CategoryBoard />
+<main>
+    <CategoryBoard />
+</main>

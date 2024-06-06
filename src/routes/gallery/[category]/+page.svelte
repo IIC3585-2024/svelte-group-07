@@ -2,4 +2,6 @@
     import Gallery from "../../../components/Gallery.svelte";
 </script>
 
-<Gallery />
+<main>
+    <Gallery />
+</main>
