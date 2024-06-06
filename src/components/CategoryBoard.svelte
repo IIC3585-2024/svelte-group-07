@@ -2,6 +2,7 @@
     import { categories } from "../data/categories.js";
     import { db } from "../db.js";
     import { onMount } from "svelte";
+    import BoardBookCard from "./BoardBookCard.svelte";
 
     let books = {};
 
@@ -34,9 +35,9 @@
                 <p>No books in this category</p>
             {:else}
             {#each [...books[category.id]] as book, j}
-                <a href="/book/{book.id}">
-                    {book.title}
-                </a>
+                <button class="inv" on:click={() => window.location.href=`book/${book.id}`}>
+                    <BoardBookCard book={book} />
+                </button>
             {/each}
             {/if} 
         </div>
@@ -80,6 +81,11 @@
 
 .col-title:hover {
     cursor: pointer;
+}
+
+.inv {
+    background-color: transparent;
+    border: none;
 }
 
 </style>
