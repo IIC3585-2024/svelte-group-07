@@ -54,7 +54,7 @@
 
 </script>
 
-<main>
+<div>
     <h2 id="search-title">Search for a book</h2>
     <div class="search">
         <input class="text-search" type="text" placeholder="The Lord of the Rings" bind:value={text}/>
@@ -77,22 +77,12 @@
             <h3>No books found</h3>
         </div>
     {/if}
-</main>
+</div>
 {#if showAddBookPopUp}
     <AddBookPopUp closeFunction={() => showAddBookPopUp = false} book={selectedBook}/>
 {/if}
 
 <style>
-    main {
-        display: flex;
-        flex-direction: column;
-        flex:1;
-        min-width: 70vw;
-        height: 90vh;
-        width: 100%;
-        margin-top: 100px;
-    }
-
     #search-title {
         margin-top: 0.5rem;
     }

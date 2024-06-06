@@ -26,7 +26,7 @@
 
     $: cover = `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`;
     $: authorString = book.author_name;
-    $: description = getBookDescription(book.key).then(description => description);
+    $: getBookDescription(book.key).then(desc => description = desc);
 
     function moveToCategory(book, categoryId) {
         //TODO: move book to category
