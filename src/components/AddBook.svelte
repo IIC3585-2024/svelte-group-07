@@ -1,25 +1,74 @@
 <script>
+    import getBooksByParam from '../lib/getBooksByParam.js';
+
     let found = true;
+    let field = 'q';
+    let text = '';
+    let books = []
+    let showAddBookPopUp = false;
+    let selectedBook = null;
 
     function searchBooks() {
-        console.log("searching books");
+        let searchQuery = '';
+        let searchParam = 'q';
+
+        if (field === 'title') {
+            searchParam = 'title'
+        } else if (field === 'author') {
+            searchParam = 'author'
+        }
+
+        if (text) {
+            searchQuery = text;
+        }
+
+        try {
+            const getBooks = async () => {
+                books = await getBooksByParam(searchQuery, searchParam);
+                if (books.length === 0) {
+                    found = false;
+                } else {
+                    found = true;
+                }
+            }
+            getBooks();
+        } catch (error) {
+            console.error(error);
+        }
     }
+
+    function addBook(book) {
+    selectedBook = {
+        key: book.key,
+        title: book.title,
+        author_name: book.author_name,
+        first_publish_year: book.first_publish_year,
+        cover_i: book.cover_i,
+        ratings_average: book.ratings_average,
+        ratings_count: book.ratings_count,
+        number_of_pages_median: book.number_of_pages_median,
+    }
+    showAddBookPopUp = true;
+}
 
 </script>
 
 <main>
     <h2 id="search-title">Search for a book</h2>
     <div class="search">
-        <input class="text-search" type="text" placeholder="The Lord of the Rings" />
-        <select class="search-by">
+        <input class="text-search" type="text" placeholder="The Lord of the Rings" bind:value={text}/>
+        <select class="search-by" bind:value={field}>
             <option value="q">All</option>
             <option value="title">Title</option>
             <option value="author">Author</option>
         </select>
-        <button class="search-submit" on:click={searchBooks()}>Search</button>
+        <button class="search-submit" on:click={searchBooks}>Search</button>
     </div>
     <div class="results-container">
         <div class="gallery">
+            {#each books as book}
+                <button on:click={addBook}>{book.title}</button>
+            {/each}
         </div>
     </div>
     {#if !found}
@@ -28,6 +77,10 @@
         </div>
     {/if}
 </main>
+{#if showAddBookPopUp}
+    <!-- <AddBookPopUp bind:showAddBookPopUp={showAddBookPopUp} book={selectedBook}/> -->
+    <p>popup</p>
+{/if}
 
 <style>
     main {
