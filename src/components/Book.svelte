@@ -1,5 +1,6 @@
 <script>
     import { categories } from "../data/categories";
+    import getBookDescription from "../lib/getBookDescription.js";
     import { onMount } from "svelte";
 
     export let closeFunction;
@@ -25,6 +26,7 @@
 
     $: cover = `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`;
     $: authorString = book.author_name;
+    $: description = getBookDescription(book.key).then(description => description);
 
     function moveToCategory(book, categoryId) {
         //TODO: move book to category
