@@ -76,15 +76,15 @@
     });
 </script>
 
-<div>
+<div class="book-view">
     {#if mounted}
         <div class="container">
-            <img src={cover} alt={book.title} />
+            <img class="cover" src={cover} alt={book.title} />
             <div>
                 <h1>{book.title}</h1>
-                <p>by {authorString}</p>
+                <h2>by {authorString}</h2>
                 <p class="publish-year">Published in {book.first_publish_year}</p>
-                <p>{book.number_of_pages_median}</p>
+                <p>{book.number_of_pages_median} Pages</p>
                 <ul class="ratings">
                     <li class="rating-avg">
                         {#each Array(Math.round(book.ratings_average)) as _, i}
@@ -118,6 +118,10 @@
 
 
 <style>
+
+    .book-view {
+        margin: 0 8rem
+    }
 
     .container {
         display: flex;
